@@ -1,5 +1,5 @@
 def add(a, b):
-    return sum((a, b))
+    return sum([a, b])
 
 
 def subtract(a, b):
