@@ -12,3 +12,7 @@ def square(a):
 
 def cube(a):
     return a * a * a
+
+
+def divide(a, b):
+    return a / b
