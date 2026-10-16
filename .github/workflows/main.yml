@@ -13,3 +13,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -B -m unittest discover -p 'test_*.py'
+      - run: python -B -m pydoc -w operations
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-api-docs
+          path: operations.html
