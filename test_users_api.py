@@ -48,3 +48,9 @@ class UsersApiTests(unittest.TestCase):
         data = {"name": "Alex", "email": "wrong-email", "role": "developer"}
         response = self.client.post("/users", json=data)
         self.assertEqual(response.status_code, 400)
+
+    def test_create_with_duplicate_email(self):
+        data = {"name": "Alex", "email": "alex@example.com", "role": "developer"}
+        self.client.post("/users", json=data)
+        response = self.client.post("/users", json=data)
+        self.assertEqual(response.status_code, 409)

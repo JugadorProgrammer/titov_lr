@@ -22,6 +22,8 @@ def create_user():
     local, domain = email.split("@")
     if not local or "." not in domain or domain.startswith(".") or domain.endswith("."):
         return {"error": "Invalid email"}, 400
+    if any(user["email"] == email for user in users):
+        return {"error": "Email already exists"}, 409
     user = {**data, "id": len(users) + 1}
     users.append(user)
     return user, 201
