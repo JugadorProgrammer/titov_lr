@@ -14,6 +14,8 @@ def create_user():
     data = request.get_json()
     if not data.get("name"):
         return {"error": "Name is required"}, 400
+    if not data.get("email"):
+        return {"error": "Email is required"}, 400
     user = {**data, "id": len(users) + 1}
     users.append(user)
     return user, 201
