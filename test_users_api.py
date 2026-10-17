@@ -74,3 +74,10 @@ class UsersApiTests(unittest.TestCase):
         response = self.client.patch("/users/999", json={"role": "tester"})
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.get_json(), {"error": "User not found"})
+
+    def test_delete_user(self):
+        data = {"name": "Alex", "email": "alex@example.com", "role": "developer"}
+        self.client.post("/users", json=data)
+        response = self.client.delete("/users/1")
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(self.client.get("/users").get_json(), [])

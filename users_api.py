@@ -48,3 +48,10 @@ def update_user(user_id):
     if "role" in data:
         user["role"] = data["role"]
     return user
+
+
+@app.delete("/users/<int:user_id>")
+def delete_user(user_id):
+    user = next(user for user in users if user["id"] == user_id)
+    users.remove(user)
+    return "", 204
