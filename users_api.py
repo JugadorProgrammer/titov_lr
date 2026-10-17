@@ -12,6 +12,8 @@ def get_users():
 @app.post("/users")
 def create_user():
     data = request.get_json()
+    if "name" not in data:
+        return {"error": "Name is required"}, 400
     user = {**data, "id": len(users) + 1}
     users.append(user)
     return user, 201

@@ -28,3 +28,8 @@ class UsersApiTests(unittest.TestCase):
     def test_get_unknown_user(self):
         response = self.client.get("/users/999")
         self.assertEqual(response.status_code, 404)
+
+    def test_create_without_name(self):
+        data = {"email": "alex@example.com", "role": "developer"}
+        response = self.client.post("/users", json=data)
+        self.assertEqual(response.status_code, 400)
