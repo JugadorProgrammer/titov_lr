@@ -62,3 +62,10 @@ class UsersApiTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json()["name"], "Alexander")
         self.assertEqual(self.client.get("/users/1").get_json()["name"], "Alexander")
+
+    def test_update_user_role(self):
+        data = {"name": "Alex", "email": "alex@example.com", "role": "developer"}
+        self.client.post("/users", json=data)
+        response = self.client.patch("/users/1", json={"role": "tester"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json()["role"], "tester")

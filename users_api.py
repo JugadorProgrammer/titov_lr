@@ -43,4 +43,6 @@ def update_user(user_id):
     data = request.get_json()
     if "name" in data:
         user["name"] = data["name"]
+    if "role" in data:
+        user["role"] = data["role"]
     return user
