@@ -52,6 +52,8 @@ def update_user(user_id):
 
 @app.delete("/users/<int:user_id>")
 def delete_user(user_id):
-    user = next(user for user in users if user["id"] == user_id)
+    user = next((user for user in users if user["id"] == user_id), None)
+    if user is None:
+        return {"error": "User not found"}, 404
     users.remove(user)
     return "", 204
