@@ -33,3 +33,8 @@ class UsersApiTests(unittest.TestCase):
         data = {"email": "alex@example.com", "role": "developer"}
         response = self.client.post("/users", json=data)
         self.assertEqual(response.status_code, 400)
+
+    def test_create_with_empty_name(self):
+        data = {"name": "", "email": "alex@example.com", "role": "developer"}
+        response = self.client.post("/users", json=data)
+        self.assertEqual(response.status_code, 400)
