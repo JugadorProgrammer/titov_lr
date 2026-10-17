@@ -19,4 +19,7 @@ def create_user():
 
 @app.get("/users/<int:user_id>")
 def get_user(user_id):
-    return next(user for user in users if user["id"] == user_id)
+    for user in users:
+        if user["id"] == user_id:
+            return user
+    return {"error": "User not found"}, 404
