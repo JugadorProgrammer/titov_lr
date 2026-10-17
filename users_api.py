@@ -2,6 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 users = []
+next_user_id = 1
 
 
 @app.get("/users")
@@ -11,6 +12,7 @@ def get_users():
 
 @app.post("/users")
 def create_user():
+    global next_user_id
     data = request.get_json()
     if not data.get("name"):
         return {"error": "Name is required"}, 400
@@ -24,8 +26,9 @@ def create_user():
         return {"error": "Invalid email"}, 400
     if any(user["email"] == email for user in users):
         return {"error": "Email already exists"}, 409
-    user = {**data, "id": len(users) + 1}
+    user = {**data, "id": next_user_id}
     users.append(user)
+    next_user_id += 1
     return user, 201
 
 

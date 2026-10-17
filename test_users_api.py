@@ -1,10 +1,12 @@
 import unittest
+import users_api
 from users_api import app, users
 
 
 class UsersApiTests(unittest.TestCase):
     def setUp(self):
         users.clear()
+        users_api.next_user_id = 1
         self.client = app.test_client()
 
     def test_get_users_empty(self):
@@ -86,3 +88,12 @@ class UsersApiTests(unittest.TestCase):
         response = self.client.delete("/users/999")
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.get_json(), {"error": "User not found"})
+
+    def test_user_id_not_reused_after_deletion(self):
+        alex = {"name": "Alex", "email": "alex@example.com", "role": "developer"}
+        maria = {"name": "Maria", "email": "maria@example.com", "role": "tester"}
+        self.client.post("/users", json=alex)
+        self.client.delete("/users/1")
+        response = self.client.post("/users", json=maria)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.get_json()["id"], 2)
