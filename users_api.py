@@ -15,3 +15,8 @@ def create_user():
     user = {**data, "id": len(users) + 1}
     users.append(user)
     return user, 201
+
+
+@app.get("/users/<int:user_id>")
+def get_user(user_id):
+    return next(user for user in users if user["id"] == user_id)

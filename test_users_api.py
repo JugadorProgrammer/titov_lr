@@ -17,3 +17,10 @@ class UsersApiTests(unittest.TestCase):
         response = self.client.post("/users", json=data)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.get_json(), {"id": 1, **data})
+
+    def test_get_user_by_id(self):
+        data = {"name": "Alex", "email": "alex@example.com", "role": "developer"}
+        self.client.post("/users", json=data)
+        response = self.client.get("/users/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"id": 1, **data})
