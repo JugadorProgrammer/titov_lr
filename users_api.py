@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 users = []
@@ -7,3 +7,11 @@ users = []
 @app.get("/users")
 def get_users():
     return users
+
+
+@app.post("/users")
+def create_user():
+    data = request.get_json()
+    user = {**data, "id": len(users) + 1}
+    users.append(user)
+    return user, 201
