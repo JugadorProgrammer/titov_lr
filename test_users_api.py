@@ -43,3 +43,8 @@ class UsersApiTests(unittest.TestCase):
         data = {"name": "Alex", "role": "developer"}
         response = self.client.post("/users", json=data)
         self.assertEqual(response.status_code, 400)
+
+    def test_create_with_invalid_email(self):
+        data = {"name": "Alex", "email": "wrong-email", "role": "developer"}
+        response = self.client.post("/users", json=data)
+        self.assertEqual(response.status_code, 400)

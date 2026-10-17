@@ -16,6 +16,12 @@ def create_user():
         return {"error": "Name is required"}, 400
     if not data.get("email"):
         return {"error": "Email is required"}, 400
+    email = data["email"]
+    if not isinstance(email, str) or email.count("@") != 1:
+        return {"error": "Invalid email"}, 400
+    local, domain = email.split("@")
+    if not local or "." not in domain or domain.startswith(".") or domain.endswith("."):
+        return {"error": "Invalid email"}, 400
     user = {**data, "id": len(users) + 1}
     users.append(user)
     return user, 201
