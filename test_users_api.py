@@ -69,3 +69,8 @@ class UsersApiTests(unittest.TestCase):
         response = self.client.patch("/users/1", json={"role": "tester"})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json()["role"], "tester")
+
+    def test_update_unknown_user(self):
+        response = self.client.patch("/users/999", json={"role": "tester"})
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.get_json(), {"error": "User not found"})

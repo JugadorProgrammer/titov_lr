@@ -39,7 +39,9 @@ def get_user(user_id):
 
 @app.patch("/users/<int:user_id>")
 def update_user(user_id):
-    user = next(user for user in users if user["id"] == user_id)
+    user = next((user for user in users if user["id"] == user_id), None)
+    if user is None:
+        return {"error": "User not found"}, 404
     data = request.get_json()
     if "name" in data:
         user["name"] = data["name"]
